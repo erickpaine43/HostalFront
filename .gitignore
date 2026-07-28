@@ -1,0 +1,62 @@
+# Dependency directories
+node_modules/
+
+# Production build output
+dist/
+dist-ssr/
+.vite/
+
+# Local environment files
+.env
+.env.*
+.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Mac, Windows, Linux files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor folders
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm/Yarn/Pnpm cache
+.pnpm-store/
+.npm/
+.yarn/
+
+# Vite cache
+/.vite/
+
+# Generated coverage reports
+coverage/
+coverage-final.json
+
+# System files
+*.bak
+*.tmp
+*.temp
+~*
+
+# Logs created by IDE or build tools
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

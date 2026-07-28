@@ -1,0 +1,104 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #1a1d24;
+  border: 1px solid #2a2f3a;
+  padding: 24px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+.modalContent h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.inputGroup {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #111318;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.selectInput:focus {
+  border-color: #ef4444; 
+}
+
+.helperText {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btnCancel {
+  background-color: transparent;
+  border: 1px solid #374151;
+  color: #d1d5db;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btnCancel:hover {
+  background-color: #374151;
+}
+
+.btnSubmit {
+  background-color: #ef4444; 
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btnSubmit:hover:not(:disabled) {
+  background-color: dc2626;
+}
+
+.btnSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btnSubmit:hover:not(:disabled) {
+  background-color: #dc2626;
+}

@@ -1,0 +1,115 @@
+.container {
+  padding: 24px;
+  color: var(--text-main, #fff);
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.addButton {
+  background-color: #0066ff;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.addButton:hover {
+  background-color: #0052cc;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0f6fc;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.label {
+  color: #8b949e;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #30363d;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.editBtn, .deleteBtn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #30363d;
+  background: #21262d;
+  color: #c9d1d9;
+  transition: all 0.2s;
+}
+
+.editBtn:hover {
+  background-color: #30363d;
+  color: #fff;
+}
+
+.deleteBtn {
+  color: #f85149;
+}
+
+.deleteBtn:hover {
+  background-color: rgba(248, 81, 73, 0.15);
+  border-color: #f85149;
+}
+.assignBtn {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.assignBtn:hover {
+  background: #30363d;
+  border-color: #8b949e;
+}
