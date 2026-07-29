@@ -22,9 +22,9 @@ export interface ReservaCrearDto {
 }
 
 export interface CancelarReservaDto {
-  Motivo: string;
+  motivo: string;
 }
 
 export interface CambiarHabitacionDto {
-  NuevaHabitacionId: number;
+  nuevaHabitacionId: number;
 }

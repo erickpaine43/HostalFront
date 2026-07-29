@@ -12,45 +12,36 @@ import styles from './ReservasPage.module.css';
 export const ReservasPage: React.FC = () => {
   const [reservas, setReservas] = useState<ReservaDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
   const [isCrearModalOpen, setIsCrearModalOpen] = useState(false);
   const [cancelarReservaId, setCancelarReservaId] = useState<number | null>(null);
   const [cambiarHabitacionReserva, setCambiarHabitacionReserva] = useState<ReservaDto | null>(null);
   const [editarReserva, setEditarReserva] = useState<ReservaDto | null>(null);
 
-
   const loadReservas = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await reservaApi.getReservas();
-      setReservas(Array.isArray(data) ? data : []);
+      const response = await reservaApi.getReservas(page, pageSize);
+      setReservas(response?.datos || []);
+      setTotalPages(response?.totalPaginas || 1);
+      setTotalItems(response?.total || 0);
     } catch (err) {
       console.error('Error al cargar reservaciones:', err);
+      setReservas([]);
+      setTotalPages(1);
+      setTotalItems(0);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [page, pageSize]);
 
   useEffect(() => {
-    let isMounted = true;
-    
-    reservaApi.getReservas()
-      .then((data) => {
-        if (isMounted) {
-          setReservas(Array.isArray(data) ? data : []);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (isMounted) {
-          console.error('Error al cargar reservaciones:', err);
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    loadReservas();
+  }, [loadReservas]);
 
   const handleCheckin = async (id: number) => {
     try {
@@ -59,6 +50,14 @@ export const ReservasPage: React.FC = () => {
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error al registrar llegada');
     }
+  };
+
+  const handlePrevious = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) setPage(page + 1);
   };
 
   return (
@@ -76,24 +75,55 @@ export const ReservasPage: React.FC = () => {
       ) : reservas.length === 0 ? (
         <div className={styles.empty}>No hay reservas registradas en el sistema.</div>
       ) : (
-        <div className={styles.grid}>
-          {reservas.map((reserva) => (
-            <ReservaCard
-              key={reserva.id}
-              reserva={reserva}
-              onCheckin={handleCheckin}
-              onCancelar={(id) => setCancelarReservaId(id)}
-              onEditar={(reservaObj) => setEditarReserva(reservaObj)}
-              onCambiarHabitacion={(id) => {
-                const encontrada = reservas.find((r) => r.id === id);
-                if (encontrada) setCambiarHabitacionReserva(encontrada);
-              }}
-            />
-          ))}
-        </div>
+        <>
+          <div className={styles.grid}>
+            {reservas.map((reserva) => (
+              <ReservaCard
+                key={reserva.id}
+                reserva={reserva}
+                onCheckin={handleCheckin}
+                onCancelar={(id) => setCancelarReservaId(id)}
+                onEditar={(reservaObj) => setEditarReserva(reservaObj)}
+                onCambiarHabitacion={(id) => {
+                  const encontrada = reservas.find((r) => r.id === id);
+                  if (encontrada) setCambiarHabitacionReserva(encontrada);
+                }}
+              />
+            ))}
+          </div>
+
+          <div className={styles.pagination}>
+            <div className={styles.paginationInfo}>
+              Mostrando {reservas.length} de {totalItems} reservas
+            </div>
+
+            <div className={styles.paginationControls}>
+              <button
+                type="button"
+                className={styles.paginationButton}
+                onClick={handlePrevious}
+                disabled={page === 1}
+              >
+                Anterior
+              </button>
+
+              <span className={styles.paginationText}>
+                Página {page} de {totalPages}
+              </span>
+
+              <button
+                type="button"
+                className={styles.paginationButton}
+                onClick={handleNext}
+                disabled={page === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
-     
       <Modal
         isOpen={isCrearModalOpen}
         onClose={() => setIsCrearModalOpen(false)}
@@ -108,7 +138,6 @@ export const ReservasPage: React.FC = () => {
         />
       </Modal>
 
-      
       {editarReserva && (
         <Modal
           isOpen={Boolean(editarReserva)}
@@ -126,7 +155,6 @@ export const ReservasPage: React.FC = () => {
         </Modal>
       )}
 
-      
       <CancelarReservaModal
         isOpen={cancelarReservaId !== null}
         reservaId={cancelarReservaId}
@@ -134,11 +162,10 @@ export const ReservasPage: React.FC = () => {
         onSuccess={loadReservas}
       />
 
-     
       {cambiarHabitacionReserva && (
         <CambiarHabitacionModal
           reservaId={cambiarHabitacionReserva.id}
-          habitacionActualId={cambiarHabitacionReserva.habitacionNumero?.toString() || ''}
+          habitacionActualId={cambiarHabitacionReserva.habitacionId.toString()}
           fechaInicio={cambiarHabitacionReserva.fechaEntrada}
           fechaFin={cambiarHabitacionReserva.fechaSalida}
           onClose={() => setCambiarHabitacionReserva(null)}
