@@ -62,3 +62,51 @@
   color: var(--status-danger);
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  flex-wrap: wrap;
+}
+
+.paginationInfo {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.paginationButton {
+  padding: 8px 14px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+  background: var(--card-bg, transparent);
+  color: var(--text-primary, inherit);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: var(--hover-bg, rgba(255, 255, 255, 0.06));
+  transform: translateY(-1px);
+}
+
+.paginationButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.paginationText {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
