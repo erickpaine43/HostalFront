@@ -19,7 +19,7 @@ export const ToggleFueraDeServicio: React.FC<ToggleFueraDeServicioProps> = ({
     setLoading(true);
 
     try {
-      await habitacionApi.toggleFueraDeServicio(habitacionId);
+      await habitacionApi.toggleFueraDeServicio(habitacionId, true);
       if (onSuccess) {
         onSuccess();
       }

@@ -216,7 +216,7 @@ export const ReportesPage: React.FC = () => {
                     <tr key={h.id}>
                       <td><strong>Hab. {h.numero}</strong></td>
                       <td>
-                        {h.estaFueraDeServicio ? (
+                        {h.EstaFueraDeServicio ? (
                           <span style={{ color: 'var(--status-danger)' }}>Fuera de Servicio</span>
                         ) : (
                           <span style={{ color: 'var(--status-success)' }}>Operativa</span>
