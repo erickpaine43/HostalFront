@@ -39,11 +39,11 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    clienteApi.getClientes(1, 100, '')
+    clienteApi.getClientes(1, 1000, '')
       .then((res) => {
-        setClientes(Array.isArray(res) ? res : []);
+        setClientes(res.datos || []);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error al cargar clientes', err));
   }, []);
 
   useEffect(() => {
