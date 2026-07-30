@@ -20,10 +20,13 @@ export const habitacionApi = {
       body: JSON.stringify(data),
     }),
 
-  toggleFueraDeServicio: (id: number, EstaFueraDeServicio: boolean) =>
-    apiClient<string>(`/Habitaciones/${id}`, {
+  toggleFueraDeServicio: (Numero: number, estaFueraDeServicio: boolean) =>
+    apiClient<string>(`/Habitaciones/${Numero}`, {
       method: 'PUT',
-      body: JSON.stringify({ EstaFueraDeServicio: EstaFueraDeServicio }),
+      body: JSON.stringify({
+         EstaFueraDeServicio: estaFueraDeServicio,
+         estaFueraDeServicio: estaFueraDeServicio
+        }),
     }),
 
   asignarAmaDeLlaves: (habitacionId: number, amaDeLlavesId: number) =>

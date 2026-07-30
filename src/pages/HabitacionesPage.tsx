@@ -32,7 +32,7 @@ export const HabitacionesPage: React.FC = () => {
     });
   };
 
-  const totalFueraDeServicio = habitaciones.filter((h) => h.EstaFueraDeServicio).length;
+  const totalFueraDeServicio = habitaciones.filter((h) => h.estaFueraDeServicio).length;
   const totalOperativas = habitaciones.length - totalFueraDeServicio;
 
   return (
@@ -70,13 +70,13 @@ export const HabitacionesPage: React.FC = () => {
                 <div
                   key={hab.id ?? hab.numero}
                   className={`${styles.habCard} ${
-                    hab.EstaFueraDeServicio ? styles.mantenimiento : styles.libre
+                    hab.estaFueraDeServicio ? styles.mantenimiento : styles.libre
                   }`}
                 >
                   <div className={styles.habHeader}>
                     <span className={styles.habNumero}>Hab. {String(hab.numero).padStart(3, '0')}</span>
                     <span className={styles.habTipo}>
-                      {hab.EstaFueraDeServicio ? 'MANTENIMIENTO' : 'DISPONIBLE'}
+                      {hab.estaFueraDeServicio ? 'MANTENIMIENTO' : 'DISPONIBLE'}
                     </span>
                   </div>
 
@@ -93,7 +93,7 @@ export const HabitacionesPage: React.FC = () => {
                   {hab.numero ? (
                     <ToggleFueraDeServicio
                       habitacionId={Number(hab.numero)}
-                      estaFueraDeServicio={hab.EstaFueraDeServicio}
+                      estaFueraDeServicio={hab.estaFueraDeServicio}
                       onSuccess={fetchHabitaciones}
                     />
                   ) : (
