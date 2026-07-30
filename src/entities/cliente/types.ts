@@ -12,10 +12,3 @@ export interface ClienteCrearDto {
   numeroTelefono: string;
   esVIP?: boolean;
 }
-
-export interface ClientePaginatedResponse {
-  items: ClienteDto[];
-  totalItems: number;
-  page: number;
-  pageSize: number;
-}

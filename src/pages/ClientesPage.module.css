@@ -35,3 +35,73 @@
 .table tr:hover {
   background: rgba(255, 255, 255, 0.02);
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  flex-wrap: wrap;
+}
+
+.paginationInfo {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.paginationButton {
+  padding: 8px 14px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+  background: var(--card-bg, transparent);
+  color: var(--text-primary, inherit);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: var(--hover-bg, rgba(255, 255, 255, 0.06));
+  transform: translateY(-1px);
+}
+
+.paginationButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.paginationText {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.container > div:nth-of-type(2) {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.container > div:nth-of-type(2) input {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+  border-radius: 8px;
+  background: var(--card-bg, transparent);
+  color: var(--text-primary, inherit);
+  min-width: 240px;
+  outline: none;
+}
+
+.container > div:nth-of-type(2) input:focus {
+  border-color: var(--accent-secondary);
+}

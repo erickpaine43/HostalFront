@@ -1,10 +1,18 @@
 import { apiClient } from '../../shared/api/apiClient';
 import type { ClienteDto, ClienteCrearDto } from './types';
 
+export interface ClientePaginatedResponse {
+  total: number;
+  pagina: number;
+  tamanioPagina: number;
+  totalPaginas: number;
+  datos: ClienteDto[];
+}
+
 export const clienteApi = {
-  getClientes: (page = 1, search = '', filterCI = '') =>
-    apiClient<ClienteDto[]>(
-      `/Clientes?page=${page}&search=${encodeURIComponent(search)}&ci=${encodeURIComponent(filterCI)}`
+  getClientes: (page = 1, pageSize = 10, search = '', ci = '') =>
+    apiClient<ClientePaginatedResponse>(
+      `/Clientes?page=${page}&pageSize=${pageSize}&search=${encodeURIComponent(search)}&ci=${encodeURIComponent(ci)}`
     ),
 
   getClienteById: (id: number) =>
