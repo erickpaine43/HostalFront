@@ -6,7 +6,7 @@ import styles from './CambiarHabitacionModal.module.css';
 
 interface CambiarHabitacionModalProps {
   reservaId: number;
-  habitacionActualId: string;
+  habitacionActualId?: string | number; 
   fechaInicio: string;
   fechaFin: string;
   onClose: () => void;
@@ -71,13 +71,16 @@ export const CambiarHabitacionModal: React.FC<CambiarHabitacionModalProps> = ({
       setSubmitting(false);
     }
   };
+  const displayHabitacionActual = habitacionActualId 
+    ? String(habitacionActualId) 
+    : 'N/A';
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h3>Cambiar Habitación</h3>
         <p className={styles.subtitle}>
-          Habitación actual: <strong>{habitacionActualId}</strong>
+          Habitación actual: <strong>{displayHabitacionActual}</strong>
         </p>
 
         {error && <div className={styles.error}>{error}</div>}
@@ -95,11 +98,14 @@ export const CambiarHabitacionModal: React.FC<CambiarHabitacionModalProps> = ({
                 required
               >
                 <option value="">-- Seleccionar --</option>
-                {habitaciones.map((h) => (
-                  <option key={h.id ?? h.numero} value={h.numero}>
-                    Hab. {h.numero}
-                  </option>
-                ))}
+                {habitaciones.map((h, idx) => {
+                  const num = h?.numero ?? h?.id;
+                  return (
+                    <option key={num ?? idx} value={num ?? ''}>
+                      Hab. {num ? String(num) : 'S/N'}
+                    </option>
+                  );
+                })}
               </select>
             </label>
 
