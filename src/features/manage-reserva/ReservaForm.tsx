@@ -39,7 +39,7 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    clienteApi.getClientes(1, '', '')
+    clienteApi.getClientes(1, 100, '')
       .then((res) => {
         setClientes(Array.isArray(res) ? res : []);
       })
