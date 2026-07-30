@@ -90,11 +90,17 @@ export const HabitacionesPage: React.FC = () => {
                       : 'Sin ama asignada'}
                   </div>
 
-                  <ToggleFueraDeServicio
-                    habitacionId={hab.id}
-                    estaFueraDeServicio={hab.EstaFueraDeServicio}
-                    onSuccess={fetchHabitaciones}
-                  />
+                  {hab.id != null ? (
+                    <ToggleFueraDeServicio
+                      habitacionId={hab.id}
+                      estaFueraDeServicio={hab.EstaFueraDeServicio}
+                      onSuccess={fetchHabitaciones}
+                    />
+                  ) : (
+                    <div style={{ color: 'var(--status-danger)', fontSize: '0.85rem' }}>
+                      ID de habitación no disponible
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
