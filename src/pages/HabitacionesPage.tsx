@@ -90,15 +90,15 @@ export const HabitacionesPage: React.FC = () => {
                       : 'Sin ama asignada'}
                   </div>
 
-                  {hab.id != null ? (
+                  {hab.numero ? (
                     <ToggleFueraDeServicio
-                      habitacionId={hab.id}
+                      habitacionId={Number(hab.numero)}
                       estaFueraDeServicio={hab.EstaFueraDeServicio}
                       onSuccess={fetchHabitaciones}
                     />
                   ) : (
                     <div style={{ color: 'var(--status-danger)', fontSize: '0.85rem' }}>
-                      ID de habitación no disponible
+                      Número de habitación no disponible
                     </div>
                   )}
                 </div>
