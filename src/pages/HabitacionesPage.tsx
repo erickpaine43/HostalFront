@@ -91,7 +91,7 @@ export const HabitacionesPage: React.FC = () => {
                   </div>
 
                   <ToggleFueraDeServicio
-                    habitacionId={Number(hab.numero)}
+                    habitacionId={hab.id}
                     estaFueraDeServicio={hab.EstaFueraDeServicio}
                     onSuccess={fetchHabitaciones}
                   />
