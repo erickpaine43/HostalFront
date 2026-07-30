@@ -29,3 +29,10 @@ jobs:
 
       - name: Type Check (TypeScript)
         run: npx tsc --noEmit
+
+      - name: Notify Vercel of Check Status
+        uses: vercel/repository-dispatch-actions/actions/status@v1
+        if: always()
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
