@@ -72,38 +72,40 @@ export const AuditoriaPage: React.FC = () => {
           <div style={{ padding: 20 }}>Cargando registros de auditoría...</div>
         ) : (
           <>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Fecha y Hora</th>
-                  <th>Operación</th>
-                  <th>Tabla Afectada</th>
-                  <th>ID Registro</th>
-                  <th>Detalles</th>
-                </tr>
-              </thead>
-              <tbody>
-                {trazas.length === 0 ? (
+            <div className="responsive-table-container">
+              <table className={styles.table}>
+                <thead>
                   <tr>
-                    <td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                      No hay registros de auditoría disponibles.
-                    </td>
+                    <th>Fecha y Hora</th>
+                    <th>Operación</th>
+                    <th>Tabla Afectada</th>
+                    <th>ID Registro</th>
+                    <th>Detalles</th>
                   </tr>
-                ) : (
-                  trazas.map((t) => (
-                    <tr key={t.id}>
-                      <td>{new Date(t.fechaHora).toLocaleString()}</td>
-                      <td>{renderOperacionBadge(t.operacion)}</td>
-                      <td>
-                        <code style={{ color: 'var(--accent-secondary)' }}>{t.tablaAfectada}</code>
+                </thead>
+                <tbody>
+                  {trazas.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                        No hay registros de auditoría disponibles.
                       </td>
-                      <td>#{t.registroId}</td>
-                      <td>{t.detalles}</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    trazas.map((t) => (
+                      <tr key={t.id}>
+                        <td>{new Date(t.fechaHora).toLocaleString()}</td>
+                        <td>{renderOperacionBadge(t.operacion)}</td>
+                        <td>
+                          <code style={{ color: 'var(--accent-secondary)' }}>{t.tablaAfectada}</code>
+                        </td>
+                        <td>#{t.registroId}</td>
+                        <td>{t.detalles}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
 
             <div className={styles.pagination}>
               <div className={styles.paginationInfo}>

@@ -112,3 +112,10 @@
   color: var(--text-muted);
   font-size: 0.95rem;
 }
+@media (max-width: 640px) {
+  .pagination {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}

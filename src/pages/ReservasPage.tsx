@@ -62,7 +62,17 @@ export const ReservasPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      {/* Header adaptable en móviles con flexWrap */}
+      <div 
+        className={styles.header}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '16px',
+          flexWrap: 'wrap'
+        }}
+      >
         <div>
           <h2 className={styles.title}>Gestión de Reservaciones</h2>
           <p style={{ color: 'var(--text-muted)' }}>Mínimo 3 días de estancia por reserva</p>
@@ -71,7 +81,7 @@ export const ReservasPage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div>Cargando reservaciones...</div>
+        <div style={{ padding: '2rem 0' }}>Cargando reservaciones...</div>
       ) : reservas.length === 0 ? (
         <div className={styles.empty}>No hay reservas registradas en el sistema.</div>
       ) : (
@@ -92,12 +102,31 @@ export const ReservasPage: React.FC = () => {
             ))}
           </div>
 
-          <div className={styles.pagination}>
+          {/* Sección de Paginación con wrap para adaptarse a pantallas estrechas */}
+          <div 
+            className={styles.pagination}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
+              marginTop: '24px'
+            }}
+          >
             <div className={styles.paginationInfo}>
               Mostrando {reservas.length} de {totalItems} reservas
             </div>
 
-            <div className={styles.paginationControls}>
+            <div 
+              className={styles.paginationControls}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                flexWrap: 'wrap'
+              }}
+            >
               <button
                 type="button"
                 className={styles.paginationButton}
@@ -124,6 +153,7 @@ export const ReservasPage: React.FC = () => {
         </>
       )}
 
+      {/* Modales */}
       <Modal
         isOpen={isCrearModalOpen}
         onClose={() => setIsCrearModalOpen(false)}
@@ -165,8 +195,11 @@ export const ReservasPage: React.FC = () => {
       {cambiarHabitacionReserva && (
         <CambiarHabitacionModal
           reservaId={cambiarHabitacionReserva.id}
-          habitacionActualId={cambiarHabitacionReserva.habitacionNumero ?? 
-            cambiarHabitacionReserva.habitacionId ?? 'N/A'}
+          habitacionActualId={
+            cambiarHabitacionReserva.habitacionNumero ?? 
+            cambiarHabitacionReserva.habitacionId ?? 
+            'N/A'
+          }
           fechaInicio={cambiarHabitacionReserva.fechaEntrada}
           fechaFin={cambiarHabitacionReserva.fechaSalida}
           onClose={() => setCambiarHabitacionReserva(null)}

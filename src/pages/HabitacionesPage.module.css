@@ -111,3 +111,15 @@
 .libre { border-top: 4px solid var(--status-success); }
 .ocupada { border-top: 4px solid var(--accent-primary); }
 .mantenimiento { border-top: 4px solid var(--status-warning); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

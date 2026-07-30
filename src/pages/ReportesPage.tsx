@@ -75,7 +75,6 @@ export const ReportesPage: React.FC = () => {
       .finally(() => setLoadingHabsAma(false));
   };
 
-
   useEffect(() => {
     if (activeTab !== 'disponibles' || !fechaInicio || !fechaFin) return;
 
@@ -109,7 +108,16 @@ export const ReportesPage: React.FC = () => {
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid var(--border-glass)' }}>
+      <div 
+        style={{ 
+          display: 'flex', 
+          gap: '12px', 
+          borderBottom: '1px solid var(--border-glass)',
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          paddingBottom: '4px'
+        }}
+      >
         <button
           className={`${styles.tabBtn} ${activeTab === 'clientes-activos' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('clientes-activos')}
@@ -132,7 +140,7 @@ export const ReportesPage: React.FC = () => {
 
       {activeTab === 'clientes-activos' && (
         <div className={styles.card}>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
             <label style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Seleccionar Fecha:</label>
             <input
               type="date"
@@ -145,38 +153,39 @@ export const ReportesPage: React.FC = () => {
           {loadingClientes ? (
             <div>Consultando clientes en hostal...</div>
           ) : (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Habitación</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clientesActivos.length === 0 ? (
+            <div className="responsive-table-container">
+              <table className={styles.table}>
+                <thead>
                   <tr>
-                    <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                      No hay clientes alojados en la fecha seleccionada.
-                    </td>
+                    <th>Cliente</th>
+                    <th>Habitación</th>
                   </tr>
-                ) : (
-                  clientesActivos.map((c, i) => (
-                    <tr key={i}>
-                      <td>{c.nombreApellidos}</td>
-                      <td><strong>Hab. {c.numeroHabitacion}</strong></td>
+                </thead>
+                <tbody>
+                  {clientesActivos.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                        No hay clientes alojados en la fecha seleccionada.
+                      </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    clientesActivos.map((c, i) => (
+                      <tr key={i}>
+                        <td>{c.nombreApellidos}</td>
+                        <td><strong>Hab. {c.numeroHabitacion}</strong></td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
 
-     
       {activeTab === 'ama-habitaciones' && (
         <div className={styles.card}>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
             <label style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Seleccionar Personal:</label>
             <select
               className={styles.inputDate}
@@ -197,41 +206,42 @@ export const ReportesPage: React.FC = () => {
           ) : !selectedAmaId ? (
             <div style={{ color: 'var(--text-muted)' }}>Por favor elige un ama de llaves.</div>
           ) : (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Número</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {habsAma.length === 0 ? (
+            <div className="responsive-table-container">
+              <table className={styles.table}>
+                <thead>
                   <tr>
-                    <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                      No tiene habitaciones asignadas actualmente.
-                    </td>
+                    <th>Número</th>
+                    <th>Estado</th>
                   </tr>
-                ) : (
-                  habsAma.map((h) => (
-                    <tr key={h.id}>
-                      <td><strong>Hab. {h.numero}</strong></td>
-                      <td>
-                        {h.estaFueraDeServicio ? (
-                          <span style={{ color: 'var(--status-danger)' }}>Fuera de Servicio</span>
-                        ) : (
-                          <span style={{ color: 'var(--status-success)' }}>Operativa</span>
-                        )}
+                </thead>
+                <tbody>
+                  {habsAma.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                        No tiene habitaciones asignadas actualmente.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    habsAma.map((h) => (
+                      <tr key={h.id}>
+                        <td><strong>Hab. {h.numero}</strong></td>
+                        <td>
+                          {h.estaFueraDeServicio ? (
+                            <span style={{ color: 'var(--status-danger)' }}>Fuera de Servicio</span>
+                          ) : (
+                            <span style={{ color: 'var(--status-success)' }}>Operativa</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
 
-      
       {activeTab === 'disponibles' && (
         <div className={styles.card}>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
@@ -254,32 +264,34 @@ export const ReportesPage: React.FC = () => {
           {loadingDisp ? (
             <div>Buscando disponibilidad...</div>
           ) : (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Habitación</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {disponibles.length === 0 ? (
+            <div className="responsive-table-container">
+              <table className={styles.table}>
+                <thead>
                   <tr>
-                    <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                      No hay habitaciones disponibles para el rango seleccionado.
-                    </td>
+                    <th>Habitación</th>
+                    <th>Estado</th>
                   </tr>
-                ) : (
-                  disponibles.map((h) => (
-                    <tr key={h.id}>
-                      <td><strong>Hab. {h.numero}</strong></td>
-                      <td>
-                        <span style={{ color: 'var(--status-success)' }}>Disponible</span>
+                </thead>
+                <tbody>
+                  {disponibles.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                        No hay habitaciones disponibles para el rango seleccionado.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    disponibles.map((h) => (
+                      <tr key={h.id}>
+                        <td><strong>Hab. {h.numero}</strong></td>
+                        <td>
+                          <span style={{ color: 'var(--status-success)' }}>Disponible</span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}

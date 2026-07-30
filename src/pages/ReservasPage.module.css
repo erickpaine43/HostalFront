@@ -79,3 +79,15 @@
   color: var(--text-muted);
   font-size: 0.95rem;
 }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr; /* Una sola tarjeta por fila en móviles */
+  }
+}

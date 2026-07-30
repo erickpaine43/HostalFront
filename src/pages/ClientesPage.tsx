@@ -103,6 +103,7 @@ export const ClientesPage: React.FC = () => {
           placeholder="Buscar por nombre, CI o teléfono"
           value={search}
           onChange={(e) => handleSearchChange(e.target.value)}
+          style={{ flex: '1 1 200px' }}
         />
 
         <input
@@ -110,6 +111,7 @@ export const ClientesPage: React.FC = () => {
           placeholder="Filtrar por CI"
           value={filterCi}
           onChange={(e) => handleFilterCiChange(e.target.value)}
+          style={{ flex: '1 1 150px' }}
         />
 
         <Button onClick={clearFilters}>
@@ -147,48 +149,50 @@ export const ClientesPage: React.FC = () => {
       ) : (
         <>
           <div className={styles.tableContainer}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Nombre y Apellidos</th>
-                  <th>Carnet de Identidad (CI)</th>
-                  <th>Teléfono</th>
-                  <th>Tipo</th>
-                  <th style={{ textAlign: 'center' }}>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clientes.length === 0 ? (
+            <div className="responsive-table-container">
+              <table className={styles.table}>
+                <thead>
                   <tr>
-                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem' }}>
-                      No hay clientes registrados en la base de datos.
-                    </td>
+                    <th>Nombre y Apellidos</th>
+                    <th>Carnet de Identidad (CI)</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th style={{ textAlign: 'center' }}>Acciones</th>
                   </tr>
-                ) : (
-                  clientes.map((c) => (
-                    <tr key={c.id}>
-                      <td style={{ fontWeight: 600 }}>{c.nombreApellidos}</td>
-                      <td>{c.ci}</td>
-                      <td>{c.numeroTelefono}</td>
-                      <td>{c.esVIP ? 'VIP (-10%)' : 'Estándar'}</td>
-                      <td>
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                          <Button onClick={() => { setErrorGeneral(null); setClienteAEditar(c); }}>
-                            Modificar
-                          </Button>
-                          <Button
-                            onClick={() => handleDelete(c.id, c.nombreApellidos)}
-                            disabled={deletingId === c.id}
-                          >
-                            {deletingId === c.id ? 'Eliminando...' : 'Eliminar'}
-                          </Button>
-                        </div>
+                </thead>
+                <tbody>
+                  {clientes.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} style={{ textAlign: 'center', padding: '2rem' }}>
+                        No hay clientes registrados en la base de datos.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    clientes.map((c) => (
+                      <tr key={c.id}>
+                        <td style={{ fontWeight: 600 }}>{c.nombreApellidos}</td>
+                        <td>{c.ci}</td>
+                        <td>{c.numeroTelefono}</td>
+                        <td>{c.esVIP ? 'VIP (-10%)' : 'Estándar'}</td>
+                        <td>
+                          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                            <Button onClick={() => { setErrorGeneral(null); setClienteAEditar(c); }}>
+                              Modificar
+                            </Button>
+                            <Button
+                              onClick={() => handleDelete(c.id, c.nombreApellidos)}
+                              disabled={deletingId === c.id}
+                            >
+                              {deletingId === c.id ? 'Eliminando...' : 'Eliminar'}
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className={styles.pagination}>

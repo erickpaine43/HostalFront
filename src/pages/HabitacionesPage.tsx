@@ -37,22 +37,25 @@ export const HabitacionesPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <div 
+        className={styles.header}
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}
+      >
         <div>
           <h2 className={styles.title}>Mapa de Habitaciones</h2>
           <p style={{ color: 'var(--text-muted)' }}>Distribución en 3 niveles (15 habitaciones)</p>
         </div>
 
-        <div className={styles.statsBar}>
+        <div className={styles.statsBar} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <div className={styles.statCard}>
-            <span>Operativas:</span>
-            <span className={styles.statValue} style={{ color: 'var(--status-success)' }}>
+            <span>Operativas: </span>
+            <span className={styles.statValue} style={{ color: 'var(--status-success)', fontWeight: 600 }}>
               {totalOperativas}
             </span>
           </div>
           <div className={styles.statCard}>
-            <span>Fuera de Servicio:</span>
-            <span className={styles.statValue} style={{ color: 'var(--status-danger)' }}>
+            <span>Fuera de Servicio: </span>
+            <span className={styles.statValue} style={{ color: 'var(--status-danger)', fontWeight: 600 }}>
               {totalFueraDeServicio}
             </span>
           </div>
@@ -60,7 +63,7 @@ export const HabitacionesPage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div>Cargando mapa del hostal...</div>
+        <div style={{ padding: '2rem 0' }}>Cargando mapa del hostal...</div>
       ) : (
         [3, 2, 1].map((piso) => (
           <div key={piso} className={styles.pisoSection}>
