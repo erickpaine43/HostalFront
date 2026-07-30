@@ -23,7 +23,6 @@ export const ReservasPage: React.FC = () => {
   const [editarReserva, setEditarReserva] = useState<ReservaDto | null>(null);
 
   const loadReservas = useCallback(async () => {
-    setLoading(true);
     try {
       const response = await reservaApi.getReservas(page, pageSize);
       setReservas(response?.datos || []);
@@ -40,8 +39,36 @@ export const ReservasPage: React.FC = () => {
   }, [page, pageSize]);
 
   useEffect(() => {
-    loadReservas();
-  }, [loadReservas]);
+    let isMounted = true;
+
+    const fetchReservas = async () => {
+      try {
+        const response = await reservaApi.getReservas(page, pageSize);
+        if (isMounted) {
+          setReservas(response?.datos || []);
+          setTotalPages(response?.totalPaginas || 1);
+          setTotalItems(response?.total || 0);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error('Error al cargar reservaciones:', err);
+          setReservas([]);
+          setTotalPages(1);
+          setTotalItems(0);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchReservas();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [page, pageSize]);
 
   const handleCheckin = async (id: number) => {
     try {
@@ -62,7 +89,6 @@ export const ReservasPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      {/* Header adaptable en móviles con flexWrap */}
       <div 
         className={styles.header}
         style={{
@@ -102,7 +128,6 @@ export const ReservasPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Sección de Paginación con wrap para adaptarse a pantallas estrechas */}
           <div 
             className={styles.pagination}
             style={{
@@ -153,7 +178,6 @@ export const ReservasPage: React.FC = () => {
         </>
       )}
 
-      {/* Modales */}
       <Modal
         isOpen={isCrearModalOpen}
         onClose={() => setIsCrearModalOpen(false)}

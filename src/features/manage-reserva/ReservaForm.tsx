@@ -18,7 +18,7 @@ interface ReservaFormProps {
 export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSuccess, onCancel }) => {
   const [clientes, setClientes] = useState<ClienteDto[]>([]);
   const [habitacionesDisponibles, setHabitacionesDisponibles] = useState<HabitacionDto[]>([]);
-  const rawHabitacion = reservaInicial?.habitacionNumero ?? (reservaInicial as any)?.habitacionId;
+  const rawHabitacion = reservaInicial?.habitacionNumero ?? reservaInicial?.habitacionId;
   const initialHabitacion = rawHabitacion ? Number(rawHabitacion) : '';
   const initialCliente = reservaInicial?.clienteId ? Number(reservaInicial.clienteId) : '';
 
@@ -54,7 +54,7 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
       reportesAndTrazasApi.getHabitacionesDisponibles(fechaEntrada, fechaSalida)
         .then((habs) => {
           let listaHabs = Array.isArray(habs) ? habs : [];
-          const rawNum = reservaInicial?.habitacionNumero ?? (reservaInicial as any)?.habitacionId;
+          const rawNum = reservaInicial?.habitacionNumero ?? reservaInicial?.habitacionId;
           const numHab = rawNum ? Number(rawNum) : null;
 
           if (numHab && !isNaN(numHab)) {

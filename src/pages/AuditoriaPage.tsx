@@ -13,7 +13,6 @@ export const AuditoriaPage: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
 
     reportesAndTrazasApi.getTrazas(page, pageSize)
       .then((response) => {
@@ -30,6 +29,10 @@ export const AuditoriaPage: React.FC = () => {
           setTrazas([]);
           setTotalPages(1);
           setTotalItems(0);
+          setLoading(false);
+        }
+      }).finally(() => {
+        if (isMounted) {
           setLoading(false);
         }
       });

@@ -6,8 +6,8 @@ export interface ReservaDto {
   importe: number;
   clienteId: number;
   clienteNombre: string;
-  habitacionId: number;
-  habitacionNumero: string;
+  habitacionId: number | string;
+  habitacionNumero: string | number;
   estaElClienteEnHostal: boolean;
   estaCancelada: boolean;
   fechaCancelacion?: string;

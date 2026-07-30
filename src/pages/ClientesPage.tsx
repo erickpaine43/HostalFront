@@ -23,7 +23,6 @@ export const ClientesPage: React.FC = () => {
 
   const loadClientes = useCallback(async () => {
     try {
-      setLoading(true);
       const response = await clienteApi.getClientes(page, pageSize, search, filterCi);
       setClientes(response?.datos || []);
       setTotalPages(response?.totalPaginas || 1);
@@ -39,8 +38,36 @@ export const ClientesPage: React.FC = () => {
   }, [page, pageSize, search, filterCi]);
 
   useEffect(() => {
-    loadClientes();
-  }, [loadClientes]);
+    let isMounted = true;
+
+    const fetchClientes = async () => {
+      try {
+        const response = await clienteApi.getClientes(page, pageSize, search, filterCi);
+        if (isMounted) {
+          setClientes(response?.datos || []);
+          setTotalPages(response?.totalPaginas || 1);
+          setTotalItems(response?.total || 0);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error('Error al cargar clientes:', err);
+          setClientes([]);
+          setTotalPages(1);
+          setTotalItems(0);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchClientes();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [page, pageSize, search, filterCi]);
 
   const handleDelete = async (id: number, nombre: string) => {
     if (!window.confirm(`¿Estás seguro de que deseas eliminar al cliente "${nombre}"?`)) {
