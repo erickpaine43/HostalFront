@@ -9,6 +9,11 @@ interface ClienteFormProps {
   onCancel: () => void;
 }
 
+// 1. Constantes de Regex para reflejar las Data Annotations del backend
+const REGEX_NOMBRE = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+const REGEX_CI = /^\d{11}$/;
+const REGEX_TELEFONO = /^\+?[1-9]\d{6,14}$/;
+
 export const ClienteForm: React.FC<ClienteFormProps> = ({
   initialData,
   onSuccess,
@@ -32,8 +37,29 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nombreApellidos.trim() || !ci.trim() || !numeroTelefono.trim()) {
+
+    const nombreClean = nombreApellidos.trim();
+    const ciClean = ci.trim();
+    const telefonoClean = numeroTelefono.trim();
+
+    // 2. Validaciones locales en el cliente antes de tocar la red
+    if (!nombreClean || !ciClean || !telefonoClean) {
       setError('Todos los campos obligatorios deben ser completados.');
+      return;
+    }
+
+    if (!REGEX_NOMBRE.test(nombreClean)) {
+      setError('El nombre solo debe contener letras y espacios.');
+      return;
+    }
+
+    if (!REGEX_CI.test(ciClean)) {
+      setError('El CI debe contener exactamente 11 dígitos numéricos.');
+      return;
+    }
+
+    if (!REGEX_TELEFONO.test(telefonoClean)) {
+      setError('Ingrese un número de teléfono válido con su código de país (Ejemplo: +5351234567 o +13055550123).');
       return;
     }
 
@@ -42,9 +68,9 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
     try {
       const payload: ClienteCrearDto = {
-        nombreApellidos: nombreApellidos.trim(),
-        ci: ci.trim(),
-        numeroTelefono: numeroTelefono.trim(),
+        nombreApellidos: nombreClean,
+        ci: ciClean,
+        numeroTelefono: telefonoClean,
         esVIP: Boolean(esVIP),
       };
 
@@ -56,7 +82,6 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
 
       onSuccess();
     } catch (err: unknown) {
-    
       const errorObj = err as { response?: { data?: { mensaje?: string; title?: string } }; message?: string };
       const mensajeServidor = 
         errorObj?.response?.data?.mensaje || 
@@ -101,9 +126,11 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
             Carnet de Identidad (CI):
             <input
               type="text"
+              inputMode="numeric"
+              maxLength={11}
               className={styles.input}
               value={ci}
-              onChange={(e) => setCi(e.target.value)}
+              onChange={(e) => setCi(e.target.value.replace(/\D/g, ''))} // 3. Filtra letras en tiempo real
               placeholder="Ej. 95081212345"
               required
             />
@@ -112,7 +139,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           <label className={styles.label}>
             Número Telefónico:
             <input
-              type="text"
+              type="tel"
               className={styles.input}
               value={numeroTelefono}
               onChange={(e) => setNumeroTelefono(e.target.value)}
