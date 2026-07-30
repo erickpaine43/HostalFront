@@ -27,6 +27,7 @@ export const ReservaCard: React.FC<ReservaCardProps> = ({
   };
 
   const fechaEntradaStr = parseFechaStr(reserva?.fechaEntrada);
+  
   const esModificable = 
     !reserva?.estaElClienteEnHostal && 
     !reserva?.estaCancelada && 
@@ -42,7 +43,9 @@ export const ReservaCard: React.FC<ReservaCardProps> = ({
     }
     return <span className={`${styles.badge} ${styles.statusPendiente}`}>Pendiente</span>;
   };
-  const numHabitacion = reserva?.habitacionNumero ?? (reserva as any)?.habitacionId ?? 'S/N';
+
+  const numHabitacion = reserva?.habitacionNumero ?? reserva?.habitacionId ?? 'S/N';
+
   const formatLocalDate = (fechaStr?: string | Date) => {
     if (!fechaStr) return 'N/A';
     const d = new Date(fechaStr);
@@ -97,15 +100,15 @@ export const ReservaCard: React.FC<ReservaCardProps> = ({
             </Button>
           )}
 
-          {esModificable && (
-            <Button variant="secondary" onClick={() => onCambiarHabitacion(reserva.id)}>
-              Cambiar Habitación
-            </Button>
-          )}
-
           {!reserva?.estaElClienteEnHostal && (
             <Button variant="danger" onClick={() => onCancelar(reserva.id)}>
               Cancelar
+            </Button>
+          )}
+
+          {reserva?.estaElClienteEnHostal && (
+            <Button variant="secondary" onClick={() => onCambiarHabitacion(reserva.id)}>
+              Cambiar Habitación
             </Button>
           )}
         </div>
