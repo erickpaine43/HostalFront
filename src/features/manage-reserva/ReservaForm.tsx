@@ -18,13 +18,13 @@ interface ReservaFormProps {
 export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSuccess, onCancel }) => {
   const [clientes, setClientes] = useState<ClienteDto[]>([]);
   const [habitacionesDisponibles, setHabitacionesDisponibles] = useState<HabitacionDto[]>([]);
-
-  const initialHabitacion = reservaInicial?.habitacionNumero ? Number(reservaInicial.habitacionNumero) : '';
+  const rawHabitacion = reservaInicial?.habitacionNumero ?? (reservaInicial as any)?.habitacionId;
+  const initialHabitacion = rawHabitacion ? Number(rawHabitacion) : '';
   const initialCliente = reservaInicial?.clienteId ? Number(reservaInicial.clienteId) : '';
 
   const [clienteId, setClienteId] = useState<number | ''>(initialCliente);
   const [habitacionId, setHabitacionId] = useState<number | ''>(initialHabitacion);
-  
+
   const formatDateForInput = (dateStr?: string | Date) => {
     if (!dateStr) return '';
     const d = new Date(dateStr);
@@ -51,9 +51,11 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
       reportesAndTrazasApi.getHabitacionesDisponibles(fechaEntrada, fechaSalida)
         .then((habs) => {
           let listaHabs = Array.isArray(habs) ? habs : [];
-          if (reservaInicial && reservaInicial.habitacionNumero) {
-            const numHab = Number(reservaInicial.habitacionNumero);
-            const yaExiste = listaHabs.some(h => Number(h.numero) === numHab);
+          const rawNum = reservaInicial?.habitacionNumero ?? (reservaInicial as any)?.habitacionId;
+          const numHab = rawNum ? Number(rawNum) : null;
+
+          if (numHab && !isNaN(numHab)) {
+            const yaExiste = listaHabs.some(h => Number(h.numero ?? h.id) === numHab);
             if (!yaExiste) {
               listaHabs = [{ id: numHab, numero: numHab, estaFueraDeServicio: false, tipo: '', precioPorNoche: 10 }, ...listaHabs] as HabitacionDto[];
             }
@@ -183,11 +185,18 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
               ? '-- Seleccione primero el rango de fechas --'
               : '-- Seleccionar Habitación --'}
           </option>
-          {habitacionesDisponibles.map((h) => (
-            <option key={h.numero} value={h.numero}>
-              Habitación {String(h.numero).padStart(3, '0')}
-            </option>
-          ))}
+          {habitacionesDisponibles.map((h, index) => {
+            const numeroVal = h?.numero ?? h?.id;
+            const textoDisplay = numeroVal 
+              ? String(numeroVal).padStart(3, '0') 
+              : 'S/N';
+
+            return (
+              <option key={numeroVal ?? index} value={numeroVal ?? ''}>
+                Habitación {textoDisplay}
+              </option>
+            );
+          })}
         </select>
       </div>
 
