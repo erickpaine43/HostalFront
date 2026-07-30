@@ -3,7 +3,6 @@ import type {
   ReservaDto,
   ReservaCrearDto,
   CancelarReservaDto,
-  CambiarHabitacionDto
 } from './types';
 
 export interface PagedResponse<T> {
@@ -44,9 +43,12 @@ export const reservaApi = {
       method: 'POST',
     }),
 
-  cambiarHabitacion: (id: number, data: CambiarHabitacionDto) =>
-    apiClient<void>(`/Reservas/${id}/cambiar-habitacion`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }),
+  cambiarHabitacion: (reservaId: number, nuevaHabitacion: number) =>
+  apiClient<string>(`/Reservas/${reservaId}/cambiar-habitacion`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(nuevaHabitacion),
+  }),
 };

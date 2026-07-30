@@ -58,9 +58,7 @@ export const CambiarHabitacionModal: React.FC<CambiarHabitacionModalProps> = ({
     setError(null);
 
     try {
-      await reservaApi.cambiarHabitacion(reservaId, {
-        NuevaHabitacionId: Number(selectedHab),
-      });
+      await reservaApi.cambiarHabitacion(reservaId, Number(selectedHab));
       onSuccess();
       onClose();
     } catch (err: unknown) {
@@ -98,7 +96,7 @@ export const CambiarHabitacionModal: React.FC<CambiarHabitacionModalProps> = ({
               >
                 <option value="">-- Seleccionar --</option>
                 {habitaciones.map((h) => (
-                  <option key={h.id} value={h.numero}>
+                  <option key={h.id ?? h.numero} value={h.numero}>
                     Hab. {h.numero}
                   </option>
                 ))}

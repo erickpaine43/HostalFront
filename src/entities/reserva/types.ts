@@ -24,7 +24,3 @@ export interface ReservaCrearDto {
 export interface CancelarReservaDto {
   Motivo: string;
 }
-
-export interface CambiarHabitacionDto {
-  NuevaHabitacionId: number;
-}
