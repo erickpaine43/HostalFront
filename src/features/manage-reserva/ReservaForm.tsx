@@ -25,6 +25,9 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
   const [clienteId, setClienteId] = useState<number | ''>(initialCliente);
   const [habitacionId, setHabitacionId] = useState<number | ''>(initialHabitacion);
 
+  // 1. Obtener la fecha actual en formato YYYY-MM-DD para establecer el límite mínimo
+  const hoy = useMemo(() => new Date().toISOString().split('T')[0], []);
+
   const formatDateForInput = (dateStr?: string | Date) => {
     if (!dateStr) return '';
     const d = new Date(dateStr);
@@ -99,6 +102,12 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
       return;
     }
 
+    // 2. Validar que la fecha de entrada no sea menor a la fecha actual (solo para reservas nuevas)
+    if (!reservaInicial && fechaEntrada < hoy) {
+      setError('La fecha de entrada no puede ser anterior a la fecha actual.');
+      return;
+    }
+
     if (calculoReserva.dias < 3) {
       setError(`El período mínimo de reservación es de 3 días (has seleccionado ${calculoReserva.dias} día/s).`);
       return;
@@ -138,9 +147,11 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
       {error && <div className={styles.errorMessage}>{error}</div>}
 
       <div className={styles.row}>
+        {/* 3. Se pasa la propiedad min={hoy} al componente Input */}
         <Input
           label="Fecha de Entrada"
           type="date"
+          min={!reservaInicial ? hoy : undefined}
           value={fechaEntrada}
           onChange={(e) => setFechaEntrada(e.target.value)}
           required
@@ -148,6 +159,7 @@ export const ReservaForm: React.FC<ReservaFormProps> = ({ reservaInicial, onSucc
         <Input
           label="Fecha de Salida"
           type="date"
+          min={fechaEntrada || hoy}
           value={fechaSalida}
           onChange={(e) => setFechaSalida(e.target.value)}
           required
