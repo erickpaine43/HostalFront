@@ -165,7 +165,8 @@ export const ReservasPage: React.FC = () => {
       {cambiarHabitacionReserva && (
         <CambiarHabitacionModal
           reservaId={cambiarHabitacionReserva.id}
-          habitacionActualId={cambiarHabitacionReserva.habitacionId.toString()}
+          habitacionActualId={cambiarHabitacionReserva.habitacionNumero ?? 
+            cambiarHabitacionReserva.habitacionId ?? 'N/A'}
           fechaInicio={cambiarHabitacionReserva.fechaEntrada}
           fechaFin={cambiarHabitacionReserva.fechaSalida}
           onClose={() => setCambiarHabitacionReserva(null)}
