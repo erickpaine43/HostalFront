@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Sidebar.module.css';
 
 export type PageView = 'reservas' | 'habitaciones' | 'clientes' | 'reportes' | 'amas-de-llaves' | 'auditoria';
@@ -9,6 +9,8 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate }) => {
+  const [isOpenMobile, setIsOpenMobile] = useState(false);
+
   const menuItems: { id: PageView; label: string; icon: string }[] = [
     { id: 'reservas', label: 'Reservaciones', icon: '📅' },
     { id: 'habitaciones', label: 'Habitaciones', icon: '🔑' },
@@ -18,24 +20,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate }) => {
     {id: 'auditoria', label: 'Auditoria', icon: '🔒'}
   ];
 
+  const handleSelect = (id: PageView) => {
+    onNavigate(id);
+    setIsOpenMobile(false);
+  };
+
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.brand}>
-        <span className={styles.logoIcon}>🏝️</span>
-        <div>
-          <h1 className={styles.title}>Isla Azul</h1>
-          <span className={styles.subtitle}>Gestión Hostalera</span>
+      <div className={styles.brandContainer}>
+        <div className={styles.brand}>
+          <span className={styles.logoIcon}>🏝️</span>
+          <div>
+            <h1 className={styles.title}>Isla Azul</h1>
+            <span className={styles.subtitle}>Gestión Hostalera</span>
+          </div>
         </div>
+        <button
+          className={styles.mobileToggle}
+          onClick={() => setIsOpenMobile(!isOpenMobile)}
+          aria-label="Toggle menu"
+        >
+          {isOpenMobile ? '✕' : '☰'}
+        </button>
       </div>
 
-      <nav className={styles.nav}>
+      <nav className={`${styles.nav} ${isOpenMobile ? styles.navOpen : ''}`}>
         {menuItems.map((item) => (
           <button
             key={item.id}
             className={`${styles.navItem} ${
               activePage === item.id ? styles.active : ''
             }`}
-            onClick={() => onNavigate(item.id)}
+            onClick={() => handleSelect(item.id)}
           >
             <span className={styles.icon}>{item.icon}</span>
             <span>{item.label}</span>

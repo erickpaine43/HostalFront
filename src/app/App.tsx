@@ -7,6 +7,8 @@ import { ClientesPage } from '../pages/ClientesPage';
 import { ReportesPage } from '../pages/ReportesPage';
 import { AmasDeLlavesPage } from '../pages/AmasDeLlavesPage';
 import { AuditoriaPage } from '../pages/AuditoriaPage';
+import styles from './App.module.css';
+
 export const App: React.FC = () => {
   const [activePage, setActivePage] = useState<PageView>('reservas');
 
@@ -30,9 +32,9 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+    <div className={styles.layoutContainer}>
       <Sidebar activePage={activePage} onNavigate={setActivePage} />
-      <main style={{ marginLeft: '260px', flex: 1, padding: '32px 40px' }}>
+      <main className={styles.mainContent}>
         {renderContent()}
       </main>
     </div>
